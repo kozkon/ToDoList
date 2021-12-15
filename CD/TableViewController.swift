@@ -141,11 +141,13 @@ class TableViewController: UITableViewController {
             self.tasks = self.tasks.sorted(by: { $0.date ?? Date() > $1.date ?? Date()  })
             self.tableView.reloadData()
             }
+        let canclAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
     
         ac.addAction(sortByNameIncrease)
         ac.addAction(sortByNameDescending)
         ac.addAction(sortByDateIncrease)
         ac.addAction(sortByDateDescending)
+        ac.addAction(canclAction)
         
         present(ac, animated: true, completion: nil)
      
