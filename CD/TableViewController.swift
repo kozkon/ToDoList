@@ -30,7 +30,7 @@ class TableViewController: UITableViewController {
     
     //получение ячейки в отфильтрованном списке
     private func fechFilteredTask(filteredTasks: [Tasks], task: [Tasks], indexPath: IndexPath ) -> Tasks{
-     
+        
         if isFiltering {
             taskForDeleteOrImportant = filteredTasks[indexPath.row]
         }else{
@@ -95,10 +95,10 @@ class TableViewController: UITableViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "sort"), style: UIBarButtonItem.Style.done, target: self, action: #selector(sortAlert))
         navigationController?.navigationBar.tintColor = .white
-}
+    }
     
     //Получение массива для формирования таблицы
-   private func fetchData(){
+    private func fetchData(){
         tasks = dataStoreManager.fetchData()
     }
     
@@ -107,7 +107,7 @@ class TableViewController: UITableViewController {
         let newTaskVC = NewTaskViewController()
         newTaskVC.modalPresentationStyle = .fullScreen
         present(newTaskVC, animated: true, completion: nil)
-   }
+    }
     
     //Вызов UIAlertController для сортировки таблицы
     @objc private func sortAlert(){
@@ -116,8 +116,8 @@ class TableViewController: UITableViewController {
             
             self.tasks = self.tasks.sorted(by: { $0.name ?? "" < $1.name ?? "" })
             self.tableView.reloadData()
-            }
-            
+        }
+        
         
         let sortByNameDescending = UIAlertAction(title: "Сортировать по убыванию имени", style: .default) { UIAlertAction in
             self.tasks = self.tasks.sorted(by: { $0.name ?? "" > $1.name ?? "" })
@@ -128,15 +128,15 @@ class TableViewController: UITableViewController {
             
             self.tasks = self.tasks.sorted(by: { $0.date ?? Date() < $1.date ?? Date()  })
             self.tableView.reloadData()
-            }
+        }
         
         let sortByDateDescending = UIAlertAction(title: "Сортировать по убыванию даты", style: .default) { UIAlertAction in
             
             self.tasks = self.tasks.sorted(by: { $0.date ?? Date() > $1.date ?? Date()  })
             self.tableView.reloadData()
-            }
+        }
         let canclAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-    
+        
         ac.addAction(sortByNameIncrease)
         ac.addAction(sortByNameDescending)
         ac.addAction(sortByDateIncrease)
@@ -144,9 +144,9 @@ class TableViewController: UITableViewController {
         ac.addAction(canclAction)
         
         present(ac, animated: true, completion: nil)
-     
+        
     }
-
+    
     
     
     //     MARK: - Table view data source
@@ -155,18 +155,18 @@ class TableViewController: UITableViewController {
         var tasksForCheck: [Tasks] = []
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
             
-           let taskToDelete = self.fechFilteredTask(filteredTasks: self.filteredTasks, task: self.tasks, indexPath: indexPath)
+            let taskToDelete = self.fechFilteredTask(filteredTasks: self.filteredTasks, task: self.tasks, indexPath: indexPath)
             
             self.dataStoreManager.deleteTask(task: taskToDelete)
-             
+            
             if self.isFiltering {
                 self.filteredTasks.remove(at: indexPath.row)
-            
+                
             }else{
                 self.tasks.remove(at: indexPath.row)
-             }
-         tableView.deleteRows(at: [indexPath], with: .automatic)
-       }
+            }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
         
         deleteAction.backgroundColor = .red
         deleteAction.image = UIImage(named: "trash")
@@ -178,7 +178,7 @@ class TableViewController: UITableViewController {
         }
         
         if tasksForCheck[indexPath.row].important == true {
-        
+            
             let flagAction = UIContextualAction(style: .normal, title: "Снять флажок") { _, _, completionHandler  in
                 self.dataStoreManager.deleteImportantTask(taskForDelete: tasksForCheck[indexPath.row])
                 tableView.reloadRows(at: [indexPath], with: .automatic)
@@ -226,13 +226,13 @@ class TableViewController: UITableViewController {
         return tasks.count
     }
     
-      override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath) as? TaskCell {
-        
+            
             let task = fechFilteredTask(filteredTasks: filteredTasks, task: tasks, indexPath: indexPath)
-           if task.important == true {
-               cell.setupCell(image: UIImage(named: "flag") ?? UIImage(), text: task.name ?? "", dateText: task.date ?? Date(), imageOfTask: ((task.image ?? UIImage(named: "photoImage")?.pngData())!))
+            if task.important == true {
+                cell.setupCell(image: UIImage(named: "flag") ?? UIImage(), text: task.name ?? "", dateText: task.date ?? Date(), imageOfTask: ((task.image ?? UIImage(named: "photoImage")?.pngData())!))
                 return cell
             } else {
                 cell.setupCell(image: UIImage(), text: task.name ?? "", dateText: task.date ?? Date(), imageOfTask: (task.image  ?? UIImage(named: "photoImage")?.pngData())!)
@@ -249,11 +249,11 @@ class TableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         performSegue(withIdentifier: "toDetailVC", sender: nil)
-
+        
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetailVC" {
             
@@ -270,7 +270,7 @@ class TableViewController: UITableViewController {
 
 //     MARK: - extension for search
 extension TableViewController: UISearchResultsUpdating{
- func updateSearchResults(for searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
     }
     
@@ -281,7 +281,7 @@ extension TableViewController: UISearchResultsUpdating{
         })
         tableView.reloadData()
     }
- }
+}
 
 extension TableViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

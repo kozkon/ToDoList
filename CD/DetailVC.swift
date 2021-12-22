@@ -19,7 +19,7 @@ class DetailVC: UIViewController{
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var detailLable: UILabel!
     
-   //конфигурирование NavigationBar
+    //конфигурирование NavigationBar
     private func configereNavBar(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveDetailTask))
         title = task.name
@@ -130,7 +130,7 @@ extension DetailVC: UITextViewDelegate
 {
     
     //Опуск клавиатуры по тапу на свободном месте
-  func setupToHideKeyboardOnTapOnView()
+    func setupToHideKeyboardOnTapOnView()
     {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(
             target: self,
@@ -161,7 +161,7 @@ extension DetailVC: UITextViewDelegate
         placeholderLabel.isHidden = !detailTextView.text.isEmpty
     }
     
-  }
+}
 
 
 //MARK: Work with image
@@ -203,7 +203,6 @@ extension DetailVC: PHPickerViewControllerDelegate {
         let picker = PHPickerViewController(configuration: configPHPiecker)
         picker.delegate = self
         self.present(picker, animated: true, completion: nil)
-        
     }
 }
 
