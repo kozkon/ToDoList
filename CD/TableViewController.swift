@@ -11,31 +11,32 @@ import UIKit
 class TableViewController: UITableViewController {
     
     var dataStoreManager = DataStoreManager()
-   
-    private var tasks: [Tasks] = []
-    private var filteredTasks: [Tasks] = []
-    
-    private var taskForSearch: Tasks = Tasks()
+    private var tasks: [Tasks] = []  //массив для формирования таблицы
+    private var filteredTasks: [Tasks] = []  //массив для формирования таблицы отфильтрованных данных
+    private var taskForDeleteOrImportant: Tasks = Tasks()  // ячейка для удаления или пометки флажком
     private let search = UISearchController(searchResultsController: nil)
     
     
+    //наличие текста в UISearchBar
     private var searchBarIsEmpty: Bool {
         guard let text = search.searchBar.text else {return false}
         return text.isEmpty
     }
     
+    //активен ли поиск
     private var isFiltering: Bool {
         return search.isActive && !searchBarIsEmpty
     }
     
+    //получение ячейки в отфильтрованном списке
     private func fechFilteredTask(filteredTasks: [Tasks], task: [Tasks], indexPath: IndexPath ) -> Tasks{
      
         if isFiltering {
-            taskForSearch = filteredTasks[indexPath.row]
+            taskForDeleteOrImportant = filteredTasks[indexPath.row]
         }else{
-            taskForSearch = tasks[indexPath.row]
+            taskForDeleteOrImportant = tasks[indexPath.row]
         }
-        return taskForSearch
+        return taskForDeleteOrImportant
     }
     
     
@@ -44,17 +45,16 @@ class TableViewController: UITableViewController {
         
         self.tableView.register(UINib(nibName: "TaskCell", bundle: nil), forCellReuseIdentifier: "TaskCell")
         configureNavBar()
-        fetchData()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchData()
         tableView.reloadData()
+        dataStoreManager.saveContext()  //сохранение данных при переходе из  DetailVC
     }
     
-    
+    //конфигурирование NavigationBar
     private func configureNavBar(){
         
         search.searchBar.delegate = self
@@ -63,7 +63,6 @@ class TableViewController: UITableViewController {
         search.searchBar.placeholder = "search"
         search.searchBar.searchTextField.backgroundColor = .white
         search.searchBar.tintColor = .black
-        //        search.searchBar.showsCancelButton = false
         definesPresentationContext = true
         
         var searchBarIsEmpty: Bool {
@@ -96,26 +95,21 @@ class TableViewController: UITableViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "sort"), style: UIBarButtonItem.Style.done, target: self, action: #selector(sortAlert))
         navigationController?.navigationBar.tintColor = .white
-        
-        
-    }
+}
     
-    
-    
-    private func fetchData(){
-        
+    //Получение массива для формирования таблицы
+   private func fetchData(){
         tasks = dataStoreManager.fetchData()
     }
     
+    //Вызов UIViewController для создания новой задачи
     @objc private func addNewTask(){
         let newTaskVC = NewTaskViewController()
         newTaskVC.modalPresentationStyle = .fullScreen
         present(newTaskVC, animated: true, completion: nil)
-        
-        //        openSaveAlert(with: "New task", message: "Добавьте новый таск:")
-        
-    }
+   }
     
+    //Вызов UIAlertController для сортировки таблицы
     @objc private func sortAlert(){
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let sortByNameIncrease = UIAlertAction(title: "Сортировать по возрастанию имени", style: .default) { UIAlertAction in
@@ -152,20 +146,7 @@ class TableViewController: UITableViewController {
         present(ac, animated: true, completion: nil)
      
     }
-    
-    private func openSaveAlert(with title: String, message: String){
-        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okButton = UIAlertAction(title: "OK", style: .default) { _ in
-            guard let task = ac.textFields?.first?.text, !task.isEmpty else { return }
-            //            self.save(task)
-        }
-        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        ac.addAction(okButton)
-        ac.addAction(cancelButton)
-        ac.addTextField(configurationHandler: nil)
-        present(ac, animated: true, completion: nil)
-        
-    }
+
     
     
     //     MARK: - Table view data source
@@ -234,29 +215,7 @@ class TableViewController: UITableViewController {
     }
     
     
-    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let cancelFlag = UIContextualAction(style: .normal, title: "Снять флажок") { _, _, completionHandler  in
-            
-            var taskForDeleteFlag = Tasks()
-            if self.isFiltering {
-                taskForDeleteFlag = self.filteredTasks[indexPath.row]
-            }else{
-                taskForDeleteFlag = self.tasks[indexPath.row]
-            }
-          self.dataStoreManager.deleteImportantTask(taskForDelete: taskForDeleteFlag)
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-            completionHandler(true)
-        }
-        cancelFlag.backgroundColor = .orange
-        
-        let configuration = UISwipeActionsConfiguration(actions: [cancelFlag])
-        configuration.performsFirstActionWithFullSwipe = true
-        return configuration
-        
-    }
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
@@ -267,88 +226,34 @@ class TableViewController: UITableViewController {
         return tasks.count
     }
     
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-       
+      override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath) as? TaskCell {
         
             let task = fechFilteredTask(filteredTasks: filteredTasks, task: tasks, indexPath: indexPath)
            if task.important == true {
-               cell.setupCell(image: UIImage(named: "flag") ?? UIImage(), text: task.name ?? "", dateText: task.date ?? Date() )
+               cell.setupCell(image: UIImage(named: "flag") ?? UIImage(), text: task.name ?? "", dateText: task.date ?? Date(), imageOfTask: ((task.image ?? UIImage(named: "photoImage")?.pngData())!))
                 return cell
             } else {
-                cell.setupCell(image: UIImage(), text: task.name ?? "", dateText: task.date ?? Date())
+                cell.setupCell(image: UIImage(), text: task.name ?? "", dateText: task.date ?? Date(), imageOfTask: (task.image  ?? UIImage(named: "photoImage")?.pngData())!)
                 return cell
             }
         } else {
             return UITableViewCell()
         }
-        
-        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
     
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-
-//        guard let indexPath = tableView.indexPathForSelectedRow else {return}
-//        let task = tasks[indexPath.row]
-//
-//        delegate?.displayTask(task: task)
-       
-       
-        
-       
         performSegue(withIdentifier: "toDetailVC", sender: nil)
-//
-//        guard let indexPath = tableView.indexPathForSelectedRow else {return}
-//        let task = tasks[indexPath.row]
-        
-        
 
-      
     }
 
-    /*
- 
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    /*
-     
-  
-     
-     /Users/repository/Developer/CD/CD.xcodeproj
-     
-     
-     
-     */
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-    
-    }
-    
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-    // Return false if you do not want the item to be re-orderable.
-    return true
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetailVC" {
             
@@ -360,13 +265,10 @@ class TableViewController: UITableViewController {
             
         }
     }
-    
-    
-
 }
 
 
-
+//     MARK: - extension for search
 extension TableViewController: UISearchResultsUpdating{
  func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)

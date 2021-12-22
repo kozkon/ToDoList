@@ -10,7 +10,7 @@ import UIKit
 
 class NewTaskViewController: UIViewController {
     
-
+    
     var dataStoreManager = DataStoreManager()
     
     private lazy var taskTextField: UITextField = {
@@ -83,24 +83,17 @@ class NewTaskViewController: UIViewController {
         
         guard let text = taskTextField.text else {return}
         if text == "" {
-          
+            
             present(UIManager.okAlert(with: "Ошибка", and: "Необходимо ввести текст"), animated: true, completion: nil)
         }else{
             dataStoreManager.saveTextField(with: context, name: text, date: Date())
             dismiss(animated: true, completion: nil)
         }
- }
+    }
     
     
     @objc private func cancelTask(){
         dismiss(animated: true, completion: nil)
     }
-    
-    
-    
-    
-    // MARK: - Navigation
-    
-    
     
 }

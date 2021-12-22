@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 class DataStoreManager{
     
@@ -117,13 +118,10 @@ class DataStoreManager{
             saveContext()
    }
     
-    
-    
-    
-    
-    
-    
-    
-    
+    func saveDetailTask(task: Tasks, image: UIImage, detailDescription: String){
+        task.image = image.pngData()
+        task.detailDescription = detailDescription
+        saveContext()
+    }
     
 }

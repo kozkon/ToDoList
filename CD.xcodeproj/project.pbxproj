@@ -20,7 +20,6 @@
 		3696BF9D2720961B0051C3CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3696BF9B2720961B0051C3CB /* LaunchScreen.storyboard */; };
 		3696BFA527209B240051C3CB /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3696BFA427209B240051C3CB /* TableViewController.swift */; };
 		3696BFA72720AF9B0051C3CB /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3696BFA62720AF9B0051C3CB /* NewTaskViewController.swift */; };
-		36B1906A272C7BC1000F4625 /* CustomCellTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B19068272C7BC1000F4625 /* CustomCellTask.swift */; };
 		36B1906B272C7BC1000F4625 /* CustomCellTask.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36B19069272C7BC1000F4625 /* CustomCellTask.xib */; };
 		36B2E13F2746EB0B00EEC516 /* Tasks+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B2E13D2746EB0B00EEC516 /* Tasks+CoreDataClass.swift */; };
 		36B2E1402746EB0B00EEC516 /* Tasks+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B2E13E2746EB0B00EEC516 /* Tasks+CoreDataProperties.swift */; };
@@ -42,7 +41,6 @@
 		3696BF9E2720961B0051C3CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3696BFA427209B240051C3CB /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		3696BFA62720AF9B0051C3CB /* NewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewController.swift; sourceTree = "<group>"; };
-		36B19068272C7BC1000F4625 /* CustomCellTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCellTask.swift; sourceTree = "<group>"; };
 		36B19069272C7BC1000F4625 /* CustomCellTask.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCellTask.xib; sourceTree = "<group>"; };
 		36B2E13D2746EB0B00EEC516 /* Tasks+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Tasks+CoreDataClass.swift"; path = "../../Tasks+CoreDataClass.swift"; sourceTree = "<group>"; };
 		36B2E13E2746EB0B00EEC516 /* Tasks+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Tasks+CoreDataProperties.swift"; path = "../../Tasks+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 				3696BFA427209B240051C3CB /* TableViewController.swift */,
 				361DD92827554F3C00ED6E40 /* DetailVC.swift */,
 				3696BFA62720AF9B0051C3CB /* NewTaskViewController.swift */,
-				36B19068272C7BC1000F4625 /* CustomCellTask.swift */,
 				3696BF932720961A0051C3CB /* Main.storyboard */,
 				36B19069272C7BC1000F4625 /* CustomCellTask.xib */,
 				3696BF992720961B0051C3CB /* Assets.xcassets */,
@@ -190,7 +187,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3696BF8E2720961A0051C3CB /* AppDelegate.swift in Sources */,
-				36B1906A272C7BC1000F4625 /* CustomCellTask.swift in Sources */,
 				3696BFA72720AF9B0051C3CB /* NewTaskViewController.swift in Sources */,
 				3696BF982720961A0051C3CB /* CD.xcdatamodeld in Sources */,
 				3696BF902720961A0051C3CB /* SceneDelegate.swift in Sources */,
@@ -347,6 +343,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GTAH34GR87;
@@ -375,6 +372,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GTAH34GR87;
