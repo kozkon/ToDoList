@@ -27,8 +27,7 @@ class DataStoreManager{
         return persistentContainer.viewContext
     }()
     
-    
-    
+     
     // MARK: - Core Data Saving support
     
     func saveContext () {
@@ -42,6 +41,7 @@ class DataStoreManager{
             }
         }
     }
+    
     
     func deleteTask(task: NSManagedObject){
         
@@ -62,7 +62,6 @@ class DataStoreManager{
             let tasks: [Tasks] = []
             return tasks
         }
-        
     }
     
     func saveTextField(with context: NSManagedObjectContext, name: String, date: Date){
@@ -75,43 +74,12 @@ class DataStoreManager{
     }
     
     func saveImportantTask(task: Tasks){
-        
-//        let fetchRequest: NSFetchRequest<Tasks> = Tasks.fetchRequest()
-//
-//        do {
-//            let tasks = try viewContext.fetch(fetchRequest)
-//
-//            task.important = true
-//            saveContext()
-//        }catch{
-//            print(error.localizedDescription)
-//        }
-//
-//
-//        saveContext()
-        
+       
         task.important = true
         saveContext()
     }
     
-    
-    
-
-//    func deleteImportantTask(indexPath: IndexPath){
-//
-//        let fetchRequest: NSFetchRequest<Tasks> = Tasks.fetchRequest()
-//
-//        do {
-//            let tasks = try viewContext.fetch(fetchRequest)
-//            let task = tasks[indexPath.row]
-//            task.important = false
-//            saveContext()
-//        }catch{
-//            print(error.localizedDescription)
-//        }
-//        saveContext()
-//    }
-    
+ 
     
     func deleteImportantTask(taskForDelete: Tasks){
        taskForDelete.important = false
@@ -119,9 +87,10 @@ class DataStoreManager{
    }
     
     func saveDetailTask(task: Tasks, image: UIImage, detailDescription: String){
+        
         task.image = image.pngData()
         task.detailDescription = detailDescription
         saveContext()
+        
     }
-    
 }
