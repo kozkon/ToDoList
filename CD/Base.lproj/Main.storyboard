@@ -51,52 +51,56 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hyh-XI-9b5">
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WMo-fy-48S">
-                                        <rect key="frame" x="8" y="20" width="398" height="28"/>
-                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="23"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photoImage" translatesAutoresizingMaskIntoConstraints="NO" id="kR2-vg-bmQ">
-                                        <rect key="frame" x="87" y="73" width="240" height="240"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="240" id="S5Y-9h-b7f"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Детальная информация:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NNq-8Y-Sae">
-                                        <rect key="frame" x="38" y="372" width="337" height="26"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="26" id="dFY-53-J4o"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="20"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8qH-d7-sDr">
-                                        <rect key="frame" x="38" y="415" width="337" height="346"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lfd-Hp-TgT">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photoImage" translatesAutoresizingMaskIntoConstraints="NO" id="kR2-vg-bmQ">
+                                                <rect key="frame" x="35" y="25" width="343" height="311"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="311" id="UjB-hd-DLd"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Детальная информация:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NNq-8Y-Sae">
+                                                <rect key="frame" x="24" y="392" width="211.5" height="24"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="24" id="ZDE-aw-DQG"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="20"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8qH-d7-sDr">
+                                                <rect key="frame" x="45" y="461" width="324" height="226"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="226" id="fuF-fu-qpp"/>
+                                                </constraints>
+                                                <color key="textColor" systemColor="labelColor"/>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                        <color key="textColor" systemColor="labelColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NNq-8Y-Sae" secondAttribute="trailing" id="Aei-mj-jdo"/>
+                                            <constraint firstAttribute="trailing" secondItem="kR2-vg-bmQ" secondAttribute="trailing" constant="36" id="KSd-Mj-XuA"/>
+                                            <constraint firstItem="kR2-vg-bmQ" firstAttribute="top" secondItem="Lfd-Hp-TgT" secondAttribute="top" constant="25" id="WIT-9z-MjV"/>
+                                            <constraint firstItem="NNq-8Y-Sae" firstAttribute="top" secondItem="kR2-vg-bmQ" secondAttribute="bottom" constant="56" id="aCu-gf-dEb"/>
+                                            <constraint firstItem="8qH-d7-sDr" firstAttribute="top" secondItem="NNq-8Y-Sae" secondAttribute="bottom" constant="45" id="ekt-WL-BFb"/>
+                                            <constraint firstAttribute="trailing" secondItem="8qH-d7-sDr" secondAttribute="trailing" constant="45" id="hzb-Ey-a7i"/>
+                                            <constraint firstItem="kR2-vg-bmQ" firstAttribute="leading" secondItem="Lfd-Hp-TgT" secondAttribute="leading" constant="35" id="kRq-xj-Awv"/>
+                                            <constraint firstItem="NNq-8Y-Sae" firstAttribute="leading" secondItem="Lfd-Hp-TgT" secondAttribute="leading" constant="24" id="s7r-3R-yiP"/>
+                                            <constraint firstAttribute="bottom" secondItem="8qH-d7-sDr" secondAttribute="bottom" constant="121" id="tkN-M9-ok4"/>
+                                            <constraint firstItem="8qH-d7-sDr" firstAttribute="leading" secondItem="Lfd-Hp-TgT" secondAttribute="leading" constant="45" id="yQn-A9-fac"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="8qH-d7-sDr" firstAttribute="top" secondItem="NNq-8Y-Sae" secondAttribute="bottom" constant="17" id="0Jo-AA-Y1b"/>
-                                    <constraint firstAttribute="trailing" secondItem="NNq-8Y-Sae" secondAttribute="trailing" constant="39" id="0bi-fz-RwY"/>
-                                    <constraint firstItem="NNq-8Y-Sae" firstAttribute="leading" secondItem="HgB-vE-0p6" secondAttribute="leading" constant="38" id="2FZ-mH-OEY"/>
-                                    <constraint firstItem="HgB-vE-0p6" firstAttribute="trailing" secondItem="kR2-vg-bmQ" secondAttribute="trailing" constant="87" id="4hj-hr-hma"/>
-                                    <constraint firstItem="kR2-vg-bmQ" firstAttribute="leading" secondItem="HgB-vE-0p6" secondAttribute="leading" constant="87" id="6zB-lA-YLI"/>
-                                    <constraint firstItem="WMo-fy-48S" firstAttribute="leading" secondItem="HgB-vE-0p6" secondAttribute="leading" constant="8" id="E9I-UY-yah"/>
-                                    <constraint firstItem="HgB-vE-0p6" firstAttribute="trailing" secondItem="8qH-d7-sDr" secondAttribute="trailing" constant="39" id="FU0-YY-79c"/>
-                                    <constraint firstAttribute="bottom" secondItem="8qH-d7-sDr" secondAttribute="bottom" constant="47" id="NPl-OX-HuI"/>
-                                    <constraint firstItem="HgB-vE-0p6" firstAttribute="bottom" secondItem="8qH-d7-sDr" secondAttribute="bottom" constant="47" id="VSF-7S-fpt"/>
-                                    <constraint firstItem="kR2-vg-bmQ" firstAttribute="top" secondItem="WMo-fy-48S" secondAttribute="bottom" constant="25" id="ZU4-E6-Rxr"/>
-                                    <constraint firstItem="NNq-8Y-Sae" firstAttribute="top" secondItem="kR2-vg-bmQ" secondAttribute="bottom" constant="59" id="cYF-Tu-efd"/>
-                                    <constraint firstItem="WMo-fy-48S" firstAttribute="top" secondItem="HgB-vE-0p6" secondAttribute="top" constant="20" id="fwc-Y9-qyb"/>
-                                    <constraint firstItem="HgB-vE-0p6" firstAttribute="trailing" secondItem="WMo-fy-48S" secondAttribute="trailing" constant="8" id="i9F-3j-raS"/>
-                                    <constraint firstItem="HgB-vE-0p6" firstAttribute="trailing" secondItem="NNq-8Y-Sae" secondAttribute="trailing" constant="39" id="o9H-aa-ZWi"/>
-                                    <constraint firstItem="8qH-d7-sDr" firstAttribute="leading" secondItem="HgB-vE-0p6" secondAttribute="leading" constant="38" id="vyw-j6-hIQ"/>
+                                    <constraint firstItem="Lfd-Hp-TgT" firstAttribute="trailing" secondItem="5Pm-rV-KR7" secondAttribute="trailing" id="7Zs-8f-jPt"/>
+                                    <constraint firstItem="Lfd-Hp-TgT" firstAttribute="width" secondItem="HgB-vE-0p6" secondAttribute="width" id="DGX-qS-O2P"/>
+                                    <constraint firstItem="Lfd-Hp-TgT" firstAttribute="top" secondItem="5Pm-rV-KR7" secondAttribute="top" id="bNT-Iv-CLH"/>
+                                    <constraint firstItem="Lfd-Hp-TgT" firstAttribute="bottom" secondItem="5Pm-rV-KR7" secondAttribute="bottom" id="taB-gE-6aA"/>
+                                    <constraint firstItem="Lfd-Hp-TgT" firstAttribute="leading" secondItem="5Pm-rV-KR7" secondAttribute="leading" id="wVl-4d-OpC"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="5Pm-rV-KR7"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="HgB-vE-0p6"/>
@@ -113,9 +117,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="TQg-QI-OWI"/>
                     <connections>
+                        <outlet property="detailLable" destination="NNq-8Y-Sae" id="ifM-8v-ukv"/>
                         <outlet property="detailTextView" destination="8qH-d7-sDr" id="MWG-6d-BdM"/>
-                        <outlet property="imageTaskLable" destination="kR2-vg-bmQ" id="nlZ-DF-0AF"/>
-                        <outlet property="nameTaskLable" destination="WMo-fy-48S" id="rNR-8z-sYR"/>
+                        <outlet property="imageOfDetailTask" destination="kR2-vg-bmQ" id="nlZ-DF-0AF"/>
+                        <outlet property="scrollView" destination="hyh-XI-9b5" id="X1Q-zd-E7T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PmO-dI-fho" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -142,7 +147,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="photoImage" width="920" height="500"/>
+        <image name="photoImage" width="460" height="250"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
