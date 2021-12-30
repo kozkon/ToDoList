@@ -3,7 +3,7 @@
 //  CD
 //
 //  Created by Константин Козлов on 20.10.2021.
-//
+//  Для GitHub
 
 import UIKit
 
@@ -51,7 +51,7 @@ class TableViewController: UITableViewController {
         super.viewWillAppear(animated)
         fetchData()
         tableView.reloadData()
-        dataStoreManager.saveContext()  //сохранение данных при переходе из  DetailVC
+        // dataStoreManager.saveContext()  //сохранение данных при переходе из  DetailVC
     }
     
     //конфигурирование NavigationBar
@@ -112,26 +112,31 @@ class TableViewController: UITableViewController {
     //Вызов UIAlertController для сортировки таблицы
     @objc private func sortAlert(){
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let sortByNameIncrease = UIAlertAction(title: "Сортировать по возрастанию имени", style: .default) { UIAlertAction in
+        let sortByNameIncrease = UIAlertAction(title: "Сортировать по возрастанию имени", style: .default) { [weak self] UIAlertAction in
             
+            guard let self = self else {return}
             self.tasks = self.tasks.sorted(by: { $0.name ?? "" < $1.name ?? "" })
             self.tableView.reloadData()
         }
         
         
-        let sortByNameDescending = UIAlertAction(title: "Сортировать по убыванию имени", style: .default) { UIAlertAction in
+        let sortByNameDescending = UIAlertAction(title: "Сортировать по убыванию имени", style: .default) { [weak self] UIAlertAction in
+            
+            guard let self = self else {return}
             self.tasks = self.tasks.sorted(by: { $0.name ?? "" > $1.name ?? "" })
             self.tableView.reloadData()
         }
         
-        let sortByDateIncrease = UIAlertAction(title: "Сортировать по возрастанию даты", style: .default) { UIAlertAction in
+        let sortByDateIncrease = UIAlertAction(title: "Сортировать по возрастанию даты", style: .default) { [weak self] UIAlertAction in
             
+            guard let self = self else {return}
             self.tasks = self.tasks.sorted(by: { $0.date ?? Date() < $1.date ?? Date()  })
             self.tableView.reloadData()
         }
         
-        let sortByDateDescending = UIAlertAction(title: "Сортировать по убыванию даты", style: .default) { UIAlertAction in
+        let sortByDateDescending = UIAlertAction(title: "Сортировать по убыванию даты", style: .default) { [weak self] UIAlertAction in
             
+            guard let self = self else {return}
             self.tasks = self.tasks.sorted(by: { $0.date ?? Date() > $1.date ?? Date()  })
             self.tableView.reloadData()
         }
@@ -153,8 +158,9 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         var tasksForCheck: [Tasks] = []
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, _ in
             
+            guard let self = self else {return}
             let taskToDelete = self.fechFilteredTask(filteredTasks: self.filteredTasks, task: self.tasks, indexPath: indexPath)
             
             self.dataStoreManager.deleteTask(task: taskToDelete)
@@ -179,7 +185,9 @@ class TableViewController: UITableViewController {
         
         if tasksForCheck[indexPath.row].important == true {
             
-            let flagAction = UIContextualAction(style: .normal, title: "Снять флажок") { _, _, completionHandler  in
+            let flagAction = UIContextualAction(style: .normal, title: "Снять флажок") { [weak self] _, _, completionHandler  in
+                
+                guard let self = self else {return}
                 self.dataStoreManager.deleteImportantTask(taskForDelete: tasksForCheck[indexPath.row])
                 tableView.reloadRows(at: [indexPath], with: .automatic)
                 completionHandler(true)
@@ -192,8 +200,9 @@ class TableViewController: UITableViewController {
             
         }else{
             
-            let flagAction = UIContextualAction(style: .normal, title: "Пометить как важное") { _, _, completionHandler in
+            let flagAction = UIContextualAction(style: .normal, title: "Пометить как важное") { [weak self] _, _, completionHandler in
                 
+                guard let self = self else {return}
                 var taskForFlag = Tasks()
                 
                 if self.isFiltering{
@@ -232,10 +241,21 @@ class TableViewController: UITableViewController {
             
             let task = fechFilteredTask(filteredTasks: filteredTasks, task: tasks, indexPath: indexPath)
             if task.important == true {
-                cell.setupCell(image: UIImage(named: "flag") ?? UIImage(), text: task.name ?? "", dateText: task.date ?? Date(), imageOfTask: ((task.image ?? UIImage(named: "photoImage")?.pngData())!))
+                
+   
+             cell.setupCell(image: UIImage(named: "flag") ?? UIImage(),
+                               text: task.name ?? "",
+                               dateText: task.date ?? Date(),
+                               imageOfTask: (task.image  ?? UIImage(named: "photoImage")?.pngData())!)
+                               
                 return cell
+           
+            
             } else {
-                cell.setupCell(image: UIImage(), text: task.name ?? "", dateText: task.date ?? Date(), imageOfTask: (task.image  ?? UIImage(named: "photoImage")?.pngData())!)
+                cell.setupCell(image: UIImage(),
+                               text: task.name ?? "",
+                               dateText: task.date ?? Date(),
+                               imageOfTask: (task.image  ?? UIImage(named: "photoImage")?.pngData())!)
                 return cell
             }
         } else {
@@ -244,7 +264,7 @@ class TableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return tableView.estimatedRowHeight
     }
     
     
@@ -254,15 +274,15 @@ class TableViewController: UITableViewController {
         
     }
     
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toDetailVC" {
-            
-            let detailVC = segue.destination as! DetailVC
+        if segue.identifier == "toDetailVC", let detailVC = segue.destination as? DetailVC {
             
             guard let indexPath = tableView.indexPathForSelectedRow else {return}
-            let task = tasks[indexPath.row]
-            detailVC.task = task
-            
+            if let task = tasks[safe: indexPath.row] {
+                detailVC.delegate = self
+                detailVC.task = task
+            }
         }
     }
 }
@@ -287,5 +307,26 @@ extension TableViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         fetchData()
         tableView.reloadData()
+    }
+}
+
+extension TableViewController: DetailVCDelegate {
+    func taskSaved(task: Tasks) {
+        let task = task
+        guard let imageData = task.image else { return }
+        guard let image = UIImage(data: imageData) else {return }
+        guard let detailDescription = task.detailDescription else {return}
+        
+        dataStoreManager.saveDetailTask(task: task, image: image, detailDescription: detailDescription)
+        
+    }
+}
+
+
+extension Collection {
+    
+    // Returns the element at the specified index if it is within bounds, otherwise nil.
+    subscript (safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
     }
 }

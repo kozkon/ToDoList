@@ -82,9 +82,16 @@ class NewTaskViewController: UIViewController {
         let context = dataStoreManager.viewContext
         
         guard let text = taskTextField.text else {return}
-        if text == "" {
+        if text.isEmpty {
             
-            present(UIManager.okAlert(with: "Ошибка", and: "Необходимо ввести текст"), animated: true, completion: nil)
+            
+                 let ac = UIAlertController(title: "Не введен текст задачи", message: "Введите текс задачи", preferredStyle: .alert)
+                 let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                 ac.addAction(okAction)
+                 
+            present(ac, animated: true)
+            
+             
         }else{
             dataStoreManager.saveTextField(with: context, name: text, date: Date())
             dismiss(animated: true, completion: nil)

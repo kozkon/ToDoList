@@ -13,6 +13,7 @@ class DetailVC: UIViewController{
     var task = Tasks() //данные для отбражения деталей задания
     let dataStoreManager = DataStoreManager()
     var  placeholderLabel = UILabel()  //UILabel для отбражения предложения ввести текст в UITextView
+    weak var delegate: DetailVCDelegate?
     
     @IBOutlet weak var imageOfDetailTask: UIImageView!
     @IBOutlet weak var detailTextView: UITextView!
@@ -41,9 +42,9 @@ class DetailVC: UIViewController{
     //Сохранение изображения и детального описания задачи
     @objc func saveDetailTask(){
         
-        let image = imageOfDetailTask.image ??  UIImage(named: "photoImage")!
-        let detailText = detailTextView.text ?? ""
-        dataStoreManager.saveDetailTask(task: task, image: image, detailDescription: detailText)
+        task.image = imageOfDetailTask.image?.pngData()
+        task.detailDescription = detailTextView.text
+        delegate?.taskSaved(task: task)
         navigationController?.popViewController(animated: true)
         
     }
@@ -60,6 +61,7 @@ class DetailVC: UIViewController{
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
             self.chooseImagePecker(source: .camera)
+            
         }
         let photoAction = UIAlertAction(title: "Photo", style: .default) { _ in
             self.choosePHPiecker()
@@ -168,14 +170,7 @@ extension DetailVC: UITextViewDelegate
 
 extension DetailVC: PHPickerViewControllerDelegate {
     
-    func chooseImagePecker(source: UIImagePickerController.SourceType){
-        if UIImagePickerController.isSourceTypeAvailable(source){
-            let imagePicker = UIImagePickerController()
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = source
-            present(imagePicker, animated: true)
-        }
-    }
+  
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         
@@ -206,4 +201,27 @@ extension DetailVC: PHPickerViewControllerDelegate {
     }
 }
 
+extension DetailVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+    
+    func chooseImagePecker(source: UIImagePickerController.SourceType){
+        if UIImagePickerController.isSourceTypeAvailable(source){
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = source
+            present(imagePicker, animated: true)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        imageOfDetailTask.image = info[.editedImage] as? UIImage
+        imageOfDetailTask.contentMode = .scaleToFill
+        imageOfDetailTask.clipsToBounds = true
+        dismiss(animated: true)
+    }
+}
 
+
+protocol DetailVCDelegate: AnyObject{
+    func taskSaved(task: Tasks)
+}
